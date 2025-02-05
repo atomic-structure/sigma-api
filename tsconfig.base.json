@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@sigma-api/build": ["libs/api/build/src/index.ts"],
+      "@sigma-api/deployment": ["libs/api/deployment/src/index.ts"],
+      "@sigma-api/health": ["libs/api/health/src/index.ts"],
+      "@sigma-api/version": ["libs/api/version/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

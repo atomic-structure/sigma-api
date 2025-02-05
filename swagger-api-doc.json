@@ -1,0 +1,244 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Sigma API",
+      "version": "1.0.0",
+      "description": "API für die Verwaltung von Deployments, Builds und Versionen"
+    },
+    "host": "api.example.com",
+    "basePath": "/v1",
+    "schemes": [
+      "https"
+    ],
+    "paths": {
+      "/deployments": {
+        "get": {
+          "summary": "Liste aller Deployments abrufen",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Erfolgreiche Antwort",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Deployment"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Neues Deployment erstellen",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/DeploymentInput"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Deployment erfolgreich erstellt",
+              "schema": {
+                "$ref": "#/definitions/Deployment"
+              }
+            }
+          }
+        }
+      },
+      "/builds": {
+        "get": {
+          "summary": "Liste aller Builds abrufen",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Erfolgreiche Antwort",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Build"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Neuen Build erstellen",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/BuildInput"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Build erfolgreich erstellt",
+              "schema": {
+                "$ref": "#/definitions/Build"
+              }
+            }
+          }
+        }
+      },
+      "/versions": {
+        "get": {
+          "summary": "Liste aller Versionen abrufen",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "Erfolgreiche Antwort",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Version"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Neue Version erstellen",
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/VersionInput"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Version erfolgreich erstellt",
+              "schema": {
+                "$ref": "#/definitions/Version"
+              }
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Deployment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "DeploymentInput": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Build": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BuildInput": {
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "properties": {
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "Version": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "number": {
+            "type": "string"
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "VersionInput": {
+        "type": "object",
+        "required": [
+          "number"
+        ],
+        "properties": {
+          "number": {
+            "type": "string"
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+  
