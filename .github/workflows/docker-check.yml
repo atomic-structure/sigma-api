@@ -1,0 +1,36 @@
+name: Docker Build Check
+
+on:
+  push:
+    paths:
+      - 'apps/api/sigma/Dockerfile'
+      - '.github/workflows/docker-check.yml'
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3
+        with:
+          dockerfile: apps/api/sigma/Dockerfile
+
+  build-docker:
+    runs-on: ubuntu-latest
+    needs: lint-docker
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build Docker Image
+        run: |
+          docker build -f apps/api/sigma/Dockerfile -t api:ci-check .
+          
+      - name: Scan for vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: api:ci-check
+          format: 'table'
