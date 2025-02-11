@@ -5,3 +5,5 @@ engines:
 exclude_paths:
   - 'node_modules/**'
   - '**/*.test.ts'
+  - "apps/api/sigma-e2e/**/*"
+  - "apps/api/delta-e2e/**/*"

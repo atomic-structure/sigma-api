@@ -20,7 +20,7 @@ jobs:
         uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: coverage/**/lcov.info
+          coverage-reports: coverage/apps/api/delta/lcov.info,coverage/apps/api/sigma/lcov.info,coverage/apps/libs/api/build/lcov.info,coverage/apps/libs/api/deployment/lcov.info,coverage/apps/libs/api/version/lcov.info,coverage/apps/libs/config/lcov.info
 
   codacy-analysis:
     runs-on: ubuntu-latest
