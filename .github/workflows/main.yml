@@ -31,7 +31,7 @@ jobs:
           cache: 'npm'
 
       - run: npm ci
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@e2e6dc8bce4b0387a05eb687735c39c41580b792
 
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
