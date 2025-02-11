@@ -5,6 +5,13 @@
 
 import express from 'express';
 import * as path from 'path';
+// import { Config } from '@sigma-api/config'; Should be the target once integrated
+import { Config } from '../../../../dist/libs/config/src/index.js'; // eslint-disable-line @nx/enforce-module-boundaries
+import { deltaApiConfigSchema } from './config/schema.js';
+
+
+const config = Config.getInstance('delta-api', deltaApiConfigSchema);
+const port = config.get('PORT');
 
 const app = express();
 
@@ -14,7 +21,6 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Welcome to delta!' });
 });
 
-const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}/api`);
 });
