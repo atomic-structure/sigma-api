@@ -5,6 +5,11 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "build": {
+      "dependsOn": [
+        { "projects": "config", "target": "build"}
+      ]
+    },
     "serve": {
       "executor": "nx:run-commands",
       "options": {
