@@ -9,28 +9,28 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "webpack-cli build",
-        "args": ["node-env=production"]
+        "args": ["node-env=prod"]
       },
       "configurations": {
-        "development": {
-          "args": ["node-env=development"]
+        "dev": {
+          "args": ["node-env=dev"]
         }
       }
     },
     "serve": {
       "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
+      "defaultConfiguration": "dev",
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "sigma:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
-        "development": {
-          "buildTarget": "sigma:build:development"
+        "dev": {
+          "buildTarget": "sigma:build:dev"
         },
-        "production": {
-          "buildTarget": "sigma:build:production"
+        "prod": {
+          "buildTarget": "sigma:build:prod"
         }
       }
     },
