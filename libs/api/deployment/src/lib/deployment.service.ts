@@ -10,6 +10,11 @@ export class DeploymentService {
         return this.deployments;
     }
 
+    findOne(id: string): Deployment {
+        const results = this.deployments.filter((deployment, idx, acc) => { deployment.id === id });
+        return results?.[0];
+    }
+
     create(dto: CreateDeploymentDto): Deployment {
         const deployment: Deployment = {
             id: crypto.randomUUID(),
