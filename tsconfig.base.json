@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@sigma-api/build": ["libs/api/build/src/index.ts"],
+      "@sigma-api/config": ["libs/config/src/index.ts"],
       "@sigma-api/deployment": ["libs/api/deployment/src/index.ts"],
       "@sigma-api/health": ["libs/api/health/src/index.ts"],
       "@sigma-api/version": ["libs/api/version/src/index.ts"]

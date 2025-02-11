@@ -8,6 +8,10 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   lint-docker:
     runs-on: ubuntu-latest
@@ -15,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@54c9adbab1582c2ef04b2016b760714a4bfde3cf
         with:
           dockerfile: apps/api/sigma/Dockerfile
 
@@ -30,7 +34,7 @@ jobs:
           docker build -f apps/api/sigma/Dockerfile -t api:ci-check .
 
       - name: Scan for vulnerabilities
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394f2dd8c87dbb0
         with:
           image-ref: api:ci-check
           format: 'table'

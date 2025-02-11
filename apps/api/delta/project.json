@@ -1,0 +1,30 @@
+{
+  "name": "delta",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/api/delta/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "dependsOn": [
+        { "projects": "config", "target": "build"}
+      ]
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "npm run start:delta-api"
+        ]
+      },
+      "dependsOn": [
+        { "projects": "config", "target": "build"}
+      ]
+    },
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  }
+}
