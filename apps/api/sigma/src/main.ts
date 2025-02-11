@@ -27,6 +27,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
+  if (config.get('API_ENABLE_CORS')) {
+    Logger.log('Disabling CORS');
+    app.enableCors();
+  }
+
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
