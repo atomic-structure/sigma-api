@@ -6,21 +6,25 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app/app.module';
+import { SigmaModule } from './app/sigma.module';
+import { Config } from '@sigma-api/config';
+import { sigmaApiConfigSchema } from './app/config/schema';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
-  app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3000;
+  const config = Config.getInstance('sigma-api', sigmaApiConfigSchema);
+  const port = config.get('PORT');
 
-  const config = new DocumentBuilder()
+  const app = await NestFactory.create(SigmaModule);
+  const globalPrefix = config.get('API_PREFIX');
+  app.setGlobalPrefix(globalPrefix);
+
+  const swaggerConfig = new DocumentBuilder()
     .setTitle('Sigma API')
     .setDescription('Deployments, Builds & Versions API')
     .setVersion('1.0')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
   await app.listen(port);

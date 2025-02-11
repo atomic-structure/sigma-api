@@ -2,14 +2,14 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Version {
   @ApiProperty()
-  id: string;
+  id!: string;
 
   @ApiProperty()
-  number: string;
+  number!: string;
 
   @ApiProperty()
-  releaseDate: string;
+  releaseDate?: string;
 
   @ApiProperty()
-  createdAt: string;
+  createdAt!: string;
 }
