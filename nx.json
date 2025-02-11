@@ -36,7 +36,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/api/sigma-e2e/**/*"]
+      "exclude": ["apps/api/sigma-e2e/**/*", "libs/api/health/**/*"]
     }
   ]
 }

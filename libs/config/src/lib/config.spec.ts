@@ -20,7 +20,9 @@ describe('Config Class', () => {
   });
 
   it('should throw an error for missing required variables', () => {
-    expect(() => new Config('test-api', schema)).toThrow('Config validation error');
+    expect(() => new Config('test-api', schema)).toThrow(
+      'Config validation error'
+    );
   });
 
   it('should use default values when not provided', () => {
@@ -32,6 +34,8 @@ describe('Config Class', () => {
   it('should throw an error for non-existent config keys', () => {
     process.env['TEST_VAR'] = 'test';
     const config = new Config('test-api', schema);
-    expect(() => config.get('NON_EXISTENT')).toThrow('Missing environment variable');
+    expect(() => config.get('NON_EXISTENT')).toThrow(
+      'Missing environment variable'
+    );
   });
 });

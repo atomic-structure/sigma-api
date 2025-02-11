@@ -7,13 +7,13 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { SigmaModule } from './app/sigma.module';
-import { Config } from "@sigma-api/config";
-import { sigmaApiConfigSchema } from "./app/config/schema";
+import { Config } from '@sigma-api/config';
+import { sigmaApiConfigSchema } from './app/config/schema';
 
-async function bootstrap() {  
+async function bootstrap() {
   const config = Config.getInstance('sigma-api', sigmaApiConfigSchema);
   const port = config.get('PORT');
-  
+
   const app = await NestFactory.create(SigmaModule);
   const globalPrefix = config.get('API_PREFIX');
   app.setGlobalPrefix(globalPrefix);

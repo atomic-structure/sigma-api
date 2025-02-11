@@ -4,7 +4,7 @@ import { IsString } from 'class-validator';
 export class CreateVersionDto {
   @ApiProperty()
   @IsString()
-  number: string;
+  number!: string;
 
   @ApiProperty()
   releaseDate?: string;
