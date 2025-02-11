@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy monorepo files
 COPY package.json package-lock.json ./
-RUN npm ci --legacy-peer-deps
+RUN npm ci
 COPY . .
 RUN npx nx build sigma
 
