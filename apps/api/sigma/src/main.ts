@@ -29,7 +29,7 @@ async function bootstrap() {
 
   if (config.get('API_ENABLE_CORS')) {
     Logger.log('Enabling CORS');
-    app.enableCors();
+    app.enableCors({ origin: config.get('CORS_ORIGIN') });
   }
 
   await app.listen(port);

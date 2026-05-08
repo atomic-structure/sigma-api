@@ -7,5 +7,6 @@ export const baseSchema = Joi.object({
   PORT: Joi.number().default(3000),
   API_PREFIX: Joi.string().default('api'),
   API_ENABLE_CORS: Joi.boolean().default(false),
+  CORS_ORIGIN: Joi.string().default('http://localhost:4200'),
   // Fügen Sie hier weitere gemeinsame Konfigurationsfelder hinzu
 });
