@@ -3,6 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { DeploymentService } from './deployment.service';
+import { API_BASE_URL } from '../../app.config';
 
 describe('DeploymentService', () => {
   let service: DeploymentService;
@@ -12,6 +13,7 @@ describe('DeploymentService', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        { provide: API_BASE_URL, useValue: '/api' },
       ]
     });
     service = TestBed.inject(DeploymentService);

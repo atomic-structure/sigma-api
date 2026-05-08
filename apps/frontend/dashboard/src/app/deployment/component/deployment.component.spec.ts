@@ -3,6 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { DeploymentComponent } from './deployment.component';
+import { API_BASE_URL } from '../../app.config';
 
 describe('DeploymentComponent', () => {
   let component: DeploymentComponent;
@@ -14,6 +15,7 @@ describe('DeploymentComponent', () => {
             providers: [
               provideHttpClient(),
               provideHttpClientTesting(),
+              { provide: API_BASE_URL, useValue: '/api' },
             ]
     }).compileComponents();
 

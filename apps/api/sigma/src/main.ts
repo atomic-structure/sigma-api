@@ -28,8 +28,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   if (config.get('API_ENABLE_CORS')) {
-    Logger.log('Disabling CORS');
-    app.enableCors();
+    Logger.log('Enabling CORS');
+    app.enableCors({ origin: config.get('CORS_ORIGIN') });
   }
 
   await app.listen(port);
