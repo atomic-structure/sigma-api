@@ -1,96 +1,86 @@
-# SigmaApi
+# Sigma API
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A lightweight CI/CD management API monorepo — tracks software builds, deployments, and versions across two API services.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Tech Stack
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- **Monorepo**: Nx 20.4, npm
+- **sigma**: NestJS 11, TypeScript, webpack — serves Swagger docs at `/api`
+- **delta**: Express 4, plain JS (ESM)
+- **Config**: Singleton (dotenv + Joi), compiled via tsc
+- **Health**: `@nestjs/terminus` (HTTP ping, disk, memory checks)
+- **Testing**: Jest 29, ts-jest, supertest (coverage always on)
+- **Linting**: ESLint 9 flat config, Prettier (singleQuote)
 
-## Run tasks
+## Project Structure
 
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```
+apps/api/
+├── sigma/          # NestJS application — main API
+├── sigma-e2e/      # E2E tests for sigma
+├── delta/          # Express application — secondary API
+└── delta-e2e/      # E2E tests for delta
+libs/
+├── config/         # Shared config (dotenv + Joi singleton)
+└── api/
+    ├── build/      # Build management module
+    ├── deployment/ # Deployment management module
+    ├── version/    # Version management module
+    └── health/     # Health check module (@nestjs/terminus)
+environments/       # Environment config files
+└── instance1/
+    ├── sigma-api/{env}/.env
+    └── delta-api/{env}/.env
 ```
 
-For example:
+## Quick Start
 
-```sh
-npx nx build myproject
+```bash
+npm ci
+npx nx build config      # required before delta can run
+npx nx serve sigma       # NestJS dev server (webpack rebuild on changes)
+npx nx serve delta       # Express server (node apps/api/delta/src/main.js)
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## Commands
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+| Command | Description |
+|---|---|
+| `npx nx build <project>` | Build (webpack for sigma/delta, tsc for config) |
+| `npx nx serve sigma` | Dev server with webpack rebuild |
+| `npx nx serve delta` | Express dev server |
+| `npx nx test <project>` | Jest unit tests |
+| `npx nx e2e sigma-e2e` | E2E tests (builds sigma first) |
+| `npx nx e2e delta-e2e` | E2E tests (builds delta first) |
+| `npx nx lint <project>` | ESLint |
+| `npx nx graph` | Visualize project dependency graph |
 
-## Add new projects
+## API Endpoints (sigma)
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+All routes are prefixed with `API_PREFIX` (default: `/api`). Swagger UI at `/api`.
 
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+| Route | Method | Description |
+|---|---|---|
+| `/api/` | GET | Hello world |
+| `/api/build` | GET/POST | List / create builds |
+| `/api/deployment` | GET/POST | List / create deployments |
+| `/api/version` | GET/POST | List / create versions |
+| `/api/health` | GET | System health checks |
+
+Data is stored in-memory (no database).
+
+## Environment Config
+
+```
+environments/{instance}/{api}/{environment}/.env
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+- Instance: `instance1` (default)
+- API: `sigma-api` | `delta-api`
+- Environment: `local` | `dev` | `int` | `uat` | `prod`
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+Configuration uses `dotenv` + `process.env` merge, validated through Joi schemas.
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
-```
+## CI
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
-```
-
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+GitHub Actions runs `npx nx affected -t lint test build` on every push/PR, plus CodeQL analysis and Docker build checks (hadolint + trivy scan).
