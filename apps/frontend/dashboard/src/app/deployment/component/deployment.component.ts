@@ -6,7 +6,7 @@ import { DeploymentService } from '../service/deployment.service';
   selector: 'app-deployment',
   imports: [CommonModule],
   templateUrl: './deployment.component.html',
-  styleUrl: './deployment.component.css',
+  styleUrl: './deployment.component.scss',
 })
 export class DeploymentComponent implements OnInit {
   deployments: any[] = [];
