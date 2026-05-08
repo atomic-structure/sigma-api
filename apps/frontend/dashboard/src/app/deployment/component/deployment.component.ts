@@ -10,6 +10,8 @@ import { DeploymentService } from '../service/deployment.service';
 })
 export class DeploymentComponent implements OnInit {
   deployments: any[] = [];
+  loading = true;
+  error: string | null = null;
 
   constructor(private deploymentService: DeploymentService) {}
 
@@ -18,9 +20,18 @@ export class DeploymentComponent implements OnInit {
   }
 
   loadDeployments(): void {
-    this.deploymentService.getDeployments().subscribe(
-      (data) => (this.deployments = data),
-      (error) => console.error('Error loading deployments', error)
-    );
+    this.loading = true;
+    this.error = null;
+    this.deploymentService.getDeployments().subscribe({
+      next: (data) => {
+        this.deployments = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load deployments';
+        this.loading = false;
+        console.error('Error loading deployments', err);
+      },
+    });
   }
 }

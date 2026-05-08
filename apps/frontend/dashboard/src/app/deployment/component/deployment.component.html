@@ -1,6 +1,15 @@
 <h2>Deployments</h2>
-<ul>
-  <li *ngFor="let deployment of deployments">
-    {{ deployment.name }} - Status: {{ deployment.status }}
-  </li>
-</ul>
+
+@if (loading) {
+  <p>Loading deployments...</p>
+} @else if (error) {
+  <p class="error">{{ error }}</p>
+} @else {
+  <ul>
+    @for (deployment of deployments; track deployment.id) {
+      <li>
+        {{ deployment.name }} - Status: {{ deployment.status }}
+      </li>
+    }
+  </ul>
+}
