@@ -28,7 +28,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   if (config.get('API_ENABLE_CORS')) {
-    Logger.log('Disabling CORS');
+    Logger.log('Enabling CORS');
     app.enableCors();
   }
 
